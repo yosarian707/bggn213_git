@@ -1,0 +1,42 @@
+---
+title: "Lab06 part II"
+author: "WBray"
+format: pdf
+---
+
+```{r}
+# Can you improve this analysis code?
+library(bio3d)
+s1 <- read.pdb("4AKE") # kinase with drug
+s2 <- read.pdb("1AKE") # kinase no drug
+s3 <- read.pdb("1E4Y") # kinase with drug
+s1.chainA <- trim.pdb(s1, chain="A", elety="CA")
+s2.chainA <- trim.pdb(s2, chain="A", elety="CA")
+s3.chainA <- trim.pdb(s3, chain="A", elety="CA")
+s1.b <- s1.chainA$atom$b
+s2.b <- s2.chainA$atom$b
+s3.b <- s3.chainA$atom$b
+plotb3(s1.b, sse=s1.chainA, typ="l", ylab="Bfactor")
+plotb3(s2.b, sse=s2.chainA, typ="l", ylab="Bfactor")
+plotb3(s3.b, sse=s3.chainA, typ="l", ylab="Bfactor")
+```
+
+
+```{r}
+#generating a function to collapse above example; calling bio3d library, using the .pdb read function therein per above, trimming the sequence ID per example and generating a genericized read, Chain, s.b, and plotting sequence. 
+funcy <- function(pID){
+  library(bio3d)
+  s <- read.pdb(pID)
+  s.ChainA <- trim.pdb(s, chain ="A", elety = "CA")
+  s.b <- s.ChainA$atom$b
+  plotb3(s.b, sse=s.ChainA, typ="l", ylab="Bfactor")
+}
+```
+
+
+```{r}
+#concatinating a vector of the protein input, running "funcy" function above on input sequences
+#\ warning: false
+seq_vec <- c("4AKE", "1AKE", "1E4Y")
+sapply(seq_vec, funcy)
+```

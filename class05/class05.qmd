@@ -1,0 +1,142 @@
+---
+title: "Class 5: Data Viz with ggplot"
+author: "WBray PID# A69034838"
+format: pdf
+---
+
+R has many ways of plotting whatever crappy data you can throw at it. 
+One that comes built-in is called **Base R** - the `plot()` function.
+```{r}
+plot(cars)
+```
+
+A very popular package in this particular avenue (haw!) is called **ggplot2**
+
+Before using any add-on package it must be installed, you chowderhead! Using the `install.packages("ggplot2")` command/function. You can put this into the code, but it will reinstall it every time!
+So run it down in the console!
+
+Then to use the package, it must be loaded up good with a `library(ggplot2)` call.
+
+
+```{r}
+library(ggplot2)
+ggplot(cars) + aes(x=speed, y=dist) + geom_point(shape = 20, size =2, alpha = 0.5)
+```
+
+For "simple" plots like this one, base R code is fine, and in fact shorter, which in this case is great.
+
+So to fit a model and show it on plot!
+
+```{r}
+library(ggplot2)
+ggplot(cars) + aes(x=speed, y=dist) + geom_point(shape = 20, size =2, alpha = 0.5) + geom_smooth() 
+```
+
+
+
+Every ggplot has at least 3 layers
+
+-**data** (data.frame with the numbers etc that you may possibly wish to plot)
+-**aes**thetics (mapping of your data columns to your plot)
+- geoms; there's a whole lot of these, (with basic types like `geom_point()`, `geom_line()`, `geom_col()`)
+
+```{r}
+mtcars
+```
+
+```{r}
+library(ggplot2)
+ggplot(mtcars) + aes(x=mpg, y=disp, size = hp, color = am) + geom_point() 
+```
+
+```{r}
+library(ggplot2)
+ggplot(mtcars) + aes(x=mpg, y=disp, size = hp, color = am, label = rownames(mtcars)) +  geom_point() + geom_smooth()
+```
+
+```{r}
+url <- "https://bioboot.github.io/bimm143_S20/class-material/up_down_expression.txt"
+genes <- read.delim(url)
+
+head(genes)
+nrow(genes)
+ncol(genes)
+round(table(genes$State) / nrow(genes), 2)
+
+
+```
+
+```{r}
+p <- ggplot(genes) + aes(Condition1, Condition2, color = State) + geom_point()
+p
+```
+
+```{r}
+p + scale_color_manual( values = c("blue", "gray", "red"))
+```
+
+```{r}
+p + scale_color_manual( values = c("blue", "gray", "red")) + labs(x = "Control", y = "Drug Treatment")
+ggsave("druggeneredblue.pdf")
+```
+
+```{r}
+url <- "https://raw.githubusercontent.com/jennybc/gapminder/master/inst/extdata/gapminder.tsv"
+
+gapminder <- read.delim(url)
+library(dplyr)
+
+gapminder_2007 <- gapminder %>% filter(year==2007)
+head(gapminder_2007)
+ggplot(gapminder_2007) + aes(x= gdpPercap, y= lifeExp, color = continent, size = pop) + geom_point(alpha = 0.5)
+```
+
+```{r}
+ggplot(gapminder_2007) + aes(x= gdpPercap, y= lifeExp, color = pop) + geom_point(alpha = 0.8)
+```
+
+
+```{r}
+ggplot(gapminder_2007) + aes(x= gdpPercap, y= lifeExp, size = pop) + geom_point(alpha = 0.5)  + scale_size_area(max_size = 10)
+```
+The lab text is wrong here, places alpha outside central parentheticals.
+
+```{r}
+gapminder_1957 <- gapminder %>% filter(year==1957)
+ggplot(gapminder_1957) + aes(x= gdpPercap, y= lifeExp, size = pop, color = continent) + geom_point(alpha = 0.7) + scale_size_area(max_size = 15)
+
+```
+
+```{r}
+nottwodiffeentyearsforunclearreasons <- gapminder %>% filter(year==1957 | year==2007)
+ggplot(nottwodiffeentyearsforunclearreasons) + aes(x= gdpPercap, y= lifeExp, size = pop, color = continent) + geom_point(alpha = 0.7) + scale_size_area(max_size = 11) + facet_wrap(~year) 
+```
+
+```{r}
+gapminder_top5 <- gapminder %>% 
+  filter(year==2007) %>% 
+  arrange(desc(pop)) %>% 
+  top_n(5, pop)
+
+gapminder_top5
+```
+```{r}
+ggplot(gapminder_top5) + geom_col(aes(x= country, y = pop))
+```
+```{r}
+ggplot(gapminder_top5) + geom_col(aes(x= country, y = lifeExp))
+```
+```{r}
+ggplot(gapminder_top5) + geom_col(aes(x= country, y = pop, fill = continent))
+```
+```{r}
+ggplot(gapminder_top5) + geom_col(aes(x= country, y = pop, fill = lifeExp))
+```
+
+```{r}
+ggplot(gapminder_top5) + aes(x=reorder(country, -pop), y = pop, fill = gdpPercap) + geom_col()
+```
+
+
+
+
