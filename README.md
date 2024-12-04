@@ -1,2 +1,2 @@
 # bggn213_git
-My classwork from bggn213 at ucsd.
+My classwork from bggn213 at ucsd (AKA UC San Diego).
