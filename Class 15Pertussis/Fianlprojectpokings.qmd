@@ -1,0 +1,69 @@
+---
+title: "FinalProjectPokings"
+author: "WBray"
+format: pdf
+editor: visual
+---
+
+```{r}
+library(bio3d)
+identitymatrix <- seqidentity(read.fasta("funfasta.aln-fasta"), normalize=TRUE, similarity=FALSE, ncore=1, nseg.scale=1)
+identitymatrix
+```
+#Question 7:
+```{r}
+library(pheatmap)
+pheatmap((1-identitymatrix))
+```
+#Question 8:
+```{r}
+sequences <- read.fasta("funfasta.aln-fasta")
+id_matrix2 <- seqidentity(sequences)
+average_identity <- apply(id_matrix2, 1, function(x) mean(x))
+best_sequence_index <- which.max(average_identity)
+best_sequence <- sequences[[best_sequence_index]]
+cat("The sequence with the highest identity to others is sequence", bestsequenceindex, "\n")
+cat("Sequence:", bestsequence, "\n")
+```
+#Consensus sequence has a large number of gaps due to the incoropration of E. granulosis and E. multilocularis. Consequently, calculating a row-wise identity matrix (may revert to using the original input 'Novel (T.solium DNALI1)')
+```{r}
+row_max <- apply(identitymatrix, 1, max)
+best_sequence_index <- which.max(row_max)
+best_sequence <- sequences[[best_sequence_index]]
+cat("Sequence with the highest identity to the others is", best_sequence_index, "\n")
+cat("Sequence:", best_sequence, "\n")
+```
+```{r}
+library(bio3d)
+
+# Read the aligned FASTA file containing sequences
+fasta_file <- "funfasta.aln-fasta"
+sequences <- read.fasta(fasta_file)
+
+# Check the structure of 'sequences' (to debug)
+str(sequences)
+length(sequences)
+```
+
+# Calculate the pairwise sequence identity matrix
+identity_matrix <- seqidentity(sequences)
+
+# View the identity matrix (for debugging)
+print(identity_matrix)
+
+# Calculate the average identity for each sequence (across all others)
+average_identity <- apply(identity_matrix, 1, function(x) mean(x))
+
+# Find the index of the sequence with the highest average identity
+best_sequence_index <- which.max(average_identity)
+
+# Print the best sequence index (to debug)
+cat("Best sequence index:", best_sequence_index, "\n")
+
+# Retrieve and print the sequence with the highest identity
+best_sequence <- sequences[[best_sequence_index]]
+cat("The sequence with the highest identity to others is sequence", best_sequence_index, "\n")
+cat("Sequence:", paste(best_sequence, collapse=""), "\n")
+```
+
+
