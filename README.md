@@ -5,4 +5,4 @@ My classwork from [bggn213](https://bioboot.github.io/bggn213_F24/) at ucsd (AKA
 - Class 5: [GGPLOT2 and its use](https://github.com/yosarian707/bggn213_git/blob/main/class05/class05.qmd)
 - Class 6: [R functions and their applications](https://github.com/yosarian707/bggn213_git/blob/main/class05/class05.qmd)
 - Class 15: [Pertussis and vaccine type dependence](https://github.com/yosarian707/bggn213_git/blob/main/Class%2015Pertussis/Class15WBRay.qmd)
-
+- Class 09: [Halloween Candy Mini Project](https://github.com/yosarian707/bggn213_git/blob/main/redux.qmd)
